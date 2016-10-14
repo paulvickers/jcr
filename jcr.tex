@@ -1,0 +1,153 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[10pt, a4paper,oneside]{memoir}
+\voffset=39pt
+
+\oddsidemargin=29pt
+
+%\setulmarginsandblock{2cm}{2cm}{*}
+%\setlrmarginsandblock{2cm}{2cm}{*}
+%\setlength{\oddsidemargin}{5mm}
+%\setlength{\evensidemargin}{5mm}
+%\checkandfixthelayout
+% ... or a4paper or a5paper or ... 
+\usepackage{geometry}
+\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage[table,x11names]{xcolor}
+\usepackage{color,soul}
+\usepackage{rotating}
+\usepackage{blindtext}
+\usepackage{url}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+% Will Robertson's fontspec.sty can be used to simplify font choices.
+% To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
+% and change "Hoefler Text" to any of these choices.
+\usepackage{tikz}
+\usetikzlibrary{backgrounds}
+\usepackage{pgfplots, pgfplotstable}
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+%\setromanfont[Mapping=tex-text]{Helvetica Neue Light}
+\setromanfont[Mapping=text-text]{%{{font%}}}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Helvetica Neue Bold}
+\setmonofont[Scale=0.9]{Andale Mono}
+
+\setul{2pt}{2pt}
+\setulcolor{ochre}
+%\newfontfamily\commentfont{You Wont Bring Me Down}
+%\newfontfamily\commentfont{Avenir Light}
+\newfontfamily\commentfont{Seravek ExtraLight}
+
+\usepackage[framemethod=default]{mdframed}
+\newenvironment{comments}{\begin{cBox}}{\end{cBox}}
+
+%\newmdenv[skipabove=7pt,
+%skipbelow=7pt,
+%rightline=false,
+%leftline=true,
+%topline=false,
+%bottomline=false,
+%backgroundcolor=ochre!10,
+%linecolor=orange,
+%innerleftmargin=5pt,
+%innerrightmargin=5pt,
+%innertopmargin=5pt,
+%innerbottommargin=5pt,
+%leftmargin=0cm,
+%rightmargin=0cm,
+%linewidth=4pt]{cBox}	
+
+%%%%%%%%%%%%%%%%%\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% dedicated to boxed/framed environements %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\renewcommand{\headrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0.4pt}
+\makepagestyle{plain}
+	\makeoddhead{plain}{\color{mahogany}JCR Journal Rankings --- %{{title%}}}{}{\small \color{mahogany}%{{year%}}}
+	\makeevenhead{plain}{\small\color{mahogany} %{{year%}}}{}{\color{mahogany}JCR Journal Rankings --- %{{title%}}}
+        \makeoddfoot{plain}{\color{mahogany}\scriptsize{\jobname}.tex: Input data (\texttt{%{{filename%}}}) from Thomson Reuters typeset in \LaTeX\ by custom Python script by Paul Vickers.}{}{\color{mahogany}\scriptsize %{{ date %}}}
+        \makeevenfoot{plain}{\color{mahogany}\scriptsize %{{ date %}}}{\color{mahogany}\scriptsize %{{filename%}} typeset in \LaTeX~via Jinja2 template engine by a custom Python script written by Paul Vickers. Raw data downloaded from Thomson Reuters }{\color{mahogany}\scriptsize{\jobname}.tex}
+
+\title{%{{title%}}}
+\date{}                                           % Activate to display a given date or no date
+
+\setlength{\droptitle}{-36pt}
+\newlength\cellwidth
+\cellwidth=0.9cm
+\newcommand{\coeff}{1.2}
+
+
+\definecolor{backgroundcolor}{RGB}{213,228,235}
+\definecolor{plotcolor1}{RGB}{1,77,100}
+\definecolor{plotcolor2}{RGB}{1,162,217}
+\definecolor{tufte1}{rgb}{0.7,0.7,0.55}
+\definecolor{ochre}{RGB}{243,102,25} 
+\definecolor{darkochre}{RGB}{223,82,25} 
+\definecolor{DeeperNiceBlue}{rgb}{0.0,0.25,0.55}
+\definecolor{mahogany}{HTML}{93312B}
+
+
+\makeatletter
+\pgfplotsset{
+   tufte xbar/.style={
+      xbar,
+      y=2em,
+      axis line style={opacity=0},
+      major tick style={draw=none},
+      xmin=0,
+      xmax=6,
+      bar width=0.9em,
+      xmajorgrids,
+      major grid style=white,
+      axis on top,
+      /tikz/background rectangle/.style={
+            fill=backgroundcolor},
+      cycle list={
+        fill=ochre, draw=none\\
+      },
+%     after end axis/.code={
+%        \draw [very thick, tufte1] ({rel axis cs:0,0}-|{axis cs:\pgfplots@data@xmin,0})
+%              ++(-0.5*\pgfkeysvalueof{/pgf/bar width},0pt)
+%              -- ({rel axis cs:0,0}-|{axis cs:\pgfplots@data@xmax,0})
+%              -- ++(0.5*\pgfkeysvalueof{/pgf/bar width},0pt);
+%      },
+      ytick=data,     % Use as many tick labels as y coordinates
+      xtick={1, 2,...,6},
+      xticklabel pos=right,
+	x tick label style={rotate=50, anchor= south west , inner sep=-0mm, yshift=10, xshift=-10},
+      xticklabels={null,Very~weak, Weak, OK, Strong, Very~strong},
+    yticklabels from table={\datatable}{Label}  % Get the labels from the Label column of the \datatable
+      %yticklabel=\pgfmathprintnumber{\tick}\,\%,
+      %ytick={5,10,...,100}
+   }
+}
+\makeatother
+%{ raw %}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%{ endraw %}
+
+\begin{document}\pagestyle{plain}
+{\small
+\begin{longtable}{R{0.06\textwidth} R{.05\textwidth}  p{.60\textwidth} R{.10\textwidth}R{.10\textwidth}} 
+\arrayrulecolor{mahogany}
+\toprule
+\textbf{\color{ochre}%{{col1%}}} & \textbf{\color{ochre}%{{col2%}}} & \textbf{\color{ochre}%{{col3%}}} & \textbf{\color{ochre}%{{col4%}}} & \textbf{\color{ochre}%{{col5%}}} \\
+\midrule
+%{{rankings%}}
+\bottomrule
+\label{default}
+\end{longtable}%
+}
+\end{document}  
