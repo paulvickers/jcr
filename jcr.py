@@ -23,6 +23,18 @@ def skip_last(iterator):
         yield prev
         prev = item
 
+def skip_footers(iterator):
+	for item in iterator:
+		if 'Copyright' not in item[0] and 'By exporting' not in item[0]:
+			yield item
+			
+# Return to top of file and skip n header rows
+def goto_top(file, iterator, n):
+	file.seek(0)
+	for i in range (n):
+		next(iterator)
+
+
 def main():		
 	# Define command line arguments
 	parser = argparse.ArgumentParser()
@@ -35,6 +47,7 @@ def main():
                     help="Enable various print statements to help debug.")
 	args = parser.parse_args()
 	root = args.input	
+
 	if args.debug:
 		print "START"	
 	env = jinja2.Environment(
@@ -95,9 +108,10 @@ def main():
 		cols = next(reader)
 		templateVars['col1'] = 'Quartile'
 		templateVars['col2'] = cols[0]
-		templateVars['col3'] = cols[1]
-		templateVars['col4'] = 'Impact Factor'
-		templateVars['col5'] = '5-yr IF'
+		templateVars['col3'] = '\%'
+		templateVars['col4'] = cols[1]
+		templateVars['col5'] = 'Impact Factor'
+		templateVars['col6'] = '5-yr IF'
 		
 #		outfil = open('JCRReport.txt', 'w')
 
@@ -105,14 +119,23 @@ def main():
 		journals = []
 		if args.debug:
 			print "Num lines: " + str(reader.line_num)
-		for row in skip_last(reader):
+		# num journals:
+		numJournals = sum(1 for row in reader) -2 #subtract two headers, footers already discarded
+		goto_top(infile, reader, 2)
+		if args.debug:
+			print "Num Journals: " + str(numJournals)
+		#for row in skip_last(reader):
+		for row in skip_footers(reader):
+		#for row in reader:
 		    # col[0] is rank, [1] is title, [2] is total cites (ignore) [3] is JIF, [4]
 		    # is 5-year JIF
-			journal = ' & '.join((row[0],row [1].replace('&', '\&'), row[3], row[4])) + '\\\\'
+			percentage = "%.2f" % (float(row[0]) / numJournals *100)
+			journal = ' & '.join((row[0],percentage, row [1].replace('&', '\&'), row[3], row[4])) + '\\\\'
+			if args.debug:
+				print percentage + '%'
+				print journal
 			journals.append(journal)
-		numJournals = reader.line_num -3 # total lines - two headers and one footer	
-		if args.debug:
-			print "Num Journals: " + str(numJournals)		
+				
 # Now work out quartile and top 10% info and add it.
 	tempJournals = []
 	top10 =numJournals /10

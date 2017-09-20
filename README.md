@@ -1,6 +1,8 @@
 # Journal Citation Reports
 
+## Version 1.1: 20/09/2017
 ## Version 1.0: 14/10/2016
+
 
 Generate LaTeX/PDF reports of journal rankings from a CSV file downloaded from the Thomson Journal Citation Reports site. Puts titles from a chosen category into a table and marks each title with its quartile. Top 10% journals have their quartile label in bold. Separators are placed in the table to mark the quartile boundaries and different background colours are used for each quartile.
 

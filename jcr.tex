@@ -6,7 +6,7 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
 
-\documentclass[10pt, a4paper,oneside]{memoir}
+\documentclass[10pt, a4paper,oneside,landscape]{memoir}
 \voffset=39pt
 
 \oddsidemargin=29pt
@@ -53,21 +53,21 @@
 \usepackage[framemethod=default]{mdframed}
 \newenvironment{comments}{\begin{cBox}}{\end{cBox}}
 
-%\newmdenv[skipabove=7pt,
-%skipbelow=7pt,
-%rightline=false,
-%leftline=true,
-%topline=false,
-%bottomline=false,
-%backgroundcolor=ochre!10,
-%linecolor=orange,
-%innerleftmargin=5pt,
-%innerrightmargin=5pt,
-%innertopmargin=5pt,
-%innerbottommargin=5pt,
-%leftmargin=0cm,
-%rightmargin=0cm,
-%linewidth=4pt]{cBox}	
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor=ochre!10,
+linecolor=orange,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt]{cBox}	
 
 %%%%%%%%%%%%%%%%%\%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% dedicated to boxed/framed environements %%%%%%%%%%%%%%
@@ -140,10 +140,10 @@
 
 \begin{document}\pagestyle{plain}
 {\small
-\begin{longtable}{R{0.06\textwidth} R{.05\textwidth}  p{.60\textwidth} R{.10\textwidth}R{.10\textwidth}} 
+\begin{longtable}{R{0.06\textwidth} R{.05\textwidth} R{.05\textwidth} p{.53\textwidth} R{.10\textwidth}R{.10\textwidth}} 
 \arrayrulecolor{mahogany}
 \toprule
-\textbf{\color{ochre}%{{col1%}}} & \textbf{\color{ochre}%{{col2%}}} & \textbf{\color{ochre}%{{col3%}}} & \textbf{\color{ochre}%{{col4%}}} & \textbf{\color{ochre}%{{col5%}}} \\
+\textbf{\color{ochre}%{{col1%}}} & \textbf{\color{ochre}%{{col2%}}} & \textbf{\color{ochre}%{{col3%}}} & \textbf{\color{ochre}%{{col4%}}} & \textbf{\color{ochre}%{{col5%}}} & \textbf{\color{ochre}%{{col6%}}}\\
 \midrule
 %{{rankings%}}
 \bottomrule
